@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dictionary</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container text-center mt-5 ">
+        <h1 class="alert alert-info">My Dictionary</h1>
+        <div class="card">
+            <div class="card-body">
+                <input id="myword" class="form-control" placeholder="Enter the Word">
+                <button class="mt-2 btn btn-primary" onclick="search()">Meaning</button>
+                <div id="result"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function search(){
+            var x=document.getElementById("myword").value
+            var url='https://api.dictionaryapi.dev/api/v2/entries/en/'+String(x)
+            fetch(url)
+            .then(response => response.json())
+            .then(data =>{
+                var xx=data['title']
+                console.log(xx)
+                if(xx ==="No Definitions Found"){
+                    alert("Definition is not Found")
+                }else{
+                var def=data[0]['meanings']
+                var length=(data[0]['meanings']).length
+                console.log((data[0]['meanings']).length)
+                console.log(def)
+                    for(var i=0;i<length;i++){
+                        var c= def[i]['definitions'][0]['definition']
+                        console.log(c)
+                        document.getElementById("result").className="alert alert-success mt-2"
+                        const para = document.createElement("p");
+                        const node = document.createTextNode(c);
+                        para.appendChild(node);
+                        document.getElementById("result").appendChild(para);
+                    }
+                }
+            })
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
